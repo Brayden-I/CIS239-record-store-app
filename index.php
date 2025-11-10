@@ -21,6 +21,39 @@
                 $view = 'create'; // missing fields
             }
             break;
+
+        case 'update':
+            $id        = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+            $title     = (string)filter_input(INPUT_POST, 'title',  FILTER_UNSAFE_RAW);
+            $artist    = (string)filter_input(INPUT_POST, 'artist', FILTER_UNSAFE_RAW);
+            $price_in  =        filter_input(INPUT_POST, 'price',   FILTER_UNSAFE_RAW);
+            $format_id  =        filter_input(INPUT_POST, 'format_id', FILTER_VALIDATE_INT);
+            $genre_id  =        filter_input(INPUT_POST, 'genre_id', FILTER_VALIDATE_INT);
+
+            $price = is_numeric($price_in) ? (float)$price_in : null;
+
+            if ($id && $title !== '' && $artist !== '' && $price !== null && $genre_id) {
+                record_update($id, $title, $artist, $price, (int)$format_id, (int)$genre_id);
+            }
+            $view = 'updated';
+            break;
+
+        case 'delete':
+            $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+
+            if ($id) {
+                $deleted = record_delete($id);
+            }
+            $view = 'deleted';
+            break;
+
+        case 'edit':
+            $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+            if ($id) {
+                $record = record_get($id);
+            }
+            $view = 'create';   // reuse the same form view
+            break;
         default:
             // No action, show the list
             break;
