@@ -79,6 +79,8 @@
         if ($view === 'list')        include __DIR__ . '/partials/record-list.php';
         elseif ($view === 'create')  include __DIR__ . '/partials/record-form.php';
         elseif ($view === 'created') include __DIR__ . '/partials/record-created.php';
+        elseif ($view === 'updated') include __DIR__ . '/partials/record-updated.php';
+        elseif ($view === 'deleted') include __DIR__ . '/partials/record-deleted.php';
         else                         include __DIR__ . '/partials/record-list.php';
         ?>
     </div>
