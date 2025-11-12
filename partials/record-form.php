@@ -40,7 +40,7 @@ $formats = formats_all_query();
                 <select name="genre_id" class="form-select" required>
                     <option value="">Select...</option>
                     <?php foreach ($genres as $g): ?>
-                        <option value="<?= (int)$g['id'] ?>"<?= (int)$g['id'] === $genre_id ? 'selected' : '' ?>>   
+                        <option value="<?= (int)$g['id'] ?>" <?= (int)$g['id'] === $genre_id ? 'selected' : '' ?>>   
                             <?= htmlspecialchars($g['genre']) ?>
                         </option>
                     <?php endforeach; ?>
@@ -52,14 +52,14 @@ $formats = formats_all_query();
                 <select name="format_id" class="form-select" required>
                     <option value="">Select...</option>
                     <?php foreach ($formats as $f): ?>
-                        <option value="<?= (int)$f['id'] ?>"<?= (int)$f['id'] === $format_id ? 'selected' : '' ?>>
+                        <option value="<?= (int)$f['id'] ?>" <?= (int)$f['id'] === $format_id ? 'selected' : '' ?>>
                             <?= htmlspecialchars($f['format']) ?>
-                    </option>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
 
-            <input type="hidden" name="action" value="create" value="<?= $action ?>">
+            <input type="hidden" name="action" value="<?= $action ?>">
             <?php if ($is_edit): ?>
                 <input type="hidden" name="id" value="<?= (int)$record['id'] ?>">
             <?php endif; ?>
