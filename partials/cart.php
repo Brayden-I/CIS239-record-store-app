@@ -1,5 +1,6 @@
 <h2>Your Cart</h2>
 
+<!-- This is whats called defensive programming. If $records_in_cart is not defined; it will instead make an empty array -->
 <?php $records = $records_in_cart ?? []; ?>
 
 <?php if (empty($records)): ?>

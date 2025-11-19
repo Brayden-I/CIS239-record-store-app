@@ -4,9 +4,12 @@
 
     session_start();
 
+    print_r($_SESSION);
+
     $view   = filter_input(INPUT_GET, 'view') ?: 'list';
     $action = filter_input(INPUT_POST, 'action');
 
+    // With this condition added before any view's functionality, it will check whether the session currently has a user. If not, sends them to the login page
     function require_login(): void {
         if (empty($_SESSION['user_id'])) {
             header('Location: ?view=login');
@@ -26,6 +29,7 @@
     }
 
     switch ($action) {
+        // User must login to the page with their existing account in order to perform any actions
         case 'login':
     $username = trim((string)($_POST['username'] ?? ''));
     $password = (string)($_POST['password'] ?? '');
@@ -46,6 +50,7 @@
     }
     break;
 
+    // Clears the users session and returns them to the login page
     case 'logout':
         $_SESSION = [];
         session_destroy();
@@ -53,6 +58,7 @@
         $view = 'login';
         break;
 
+    // Users can create a new account whether they have an existing account or not
     case 'register':
         $username  = trim((string)($_POST['username'] ?? ''));
         $full_name = trim((string)($_POST['full_name'] ?? ''));
@@ -79,6 +85,7 @@
         }
         break;
 
+    // this is the action that adds records to the cart session. If there is no cart session, there will not be a record added
     case 'add_to_cart':
         require_login();
         $record_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
@@ -92,6 +99,7 @@
         $view = 'list';
         break;
 
+    // this is the action that lets users go to the page to confirm and pay for their cart. Once purchases it shows whether it is successful and empties their current cart
     case 'checkout':
         require_login();
         $cart_ids = $_SESSION['cart'] ?? [];
@@ -120,6 +128,7 @@
                 }
                 break;
 
+        // This is an action for users (probably not a good idea) to change the data of existing records
         case 'update':
             $id        = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
             $title     = (string)filter_input(INPUT_POST, 'title',  FILTER_UNSAFE_RAW);
@@ -136,6 +145,7 @@
             $view = 'updated';
             break;
 
+        // This is an action for users (another bad idea) to delete an existing record
         case 'delete':
             $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
 
@@ -145,6 +155,7 @@
             $view = 'deleted';
             break;
 
+        
         case 'edit':
             $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
             if ($id) {
@@ -182,6 +193,7 @@
         <!-- navigation -->
         <?php include __DIR__ . '/components/nav.php'; ?>
 
+        <!-- These are the individual page contents that are showed under a view-->
         <?php
         if ($view === 'login') {
             include __DIR__ . '/partials/login_form.php';

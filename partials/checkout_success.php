@@ -1,3 +1,5 @@
+<!-- If the purchase is successfull, the user receives this message -->
+
 <h2>Thank you for your purchase!</h2>
 
 <p>Order for <strong></strong> completed.</p>
